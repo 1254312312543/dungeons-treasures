@@ -22,18 +22,23 @@ function HUD_Inventory () {
     }
 }
 controller.player2.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pressed, function () {
-    projectile = sprites.createProjectileFromSprite(img`
-        . 8 8 . 
-        8 8 8 8 
-        8 8 8 8 
-        . 8 8 . 
-        `, player_, Math.cos(Direction) * (0 - Initial_artifact[1]), Math.sin(Direction) * (0 - Initial_artifact[1]))
+    Spell_casting()
 })
 function fCrosshair () {
     if (controller.player2.isPressed(ControllerButton.Left)) {
         Direction += -0.1
     } else if (controller.player2.isPressed(ControllerButton.Right)) {
         Direction += 0.1
+    }
+}
+function Spell_casting () {
+    if (Equiped_artifact[0] == 1) {
+        projectile = sprites.createProjectileFromSprite(img`
+            . 8 8 . 
+            8 8 8 8 
+            8 8 8 8 
+            . 8 8 . 
+            `, player_, Math.cos(Direction) * (0 - Initial_artifact[1]), Math.sin(Direction) * (0 - Initial_artifact[1]))
     }
 }
 function fInvincibility () {
@@ -116,7 +121,6 @@ function fLife_bar_change () {
 }
 function Spell_detection () {
     Equiped_artifact = [_new[0], _new[1]]
-    return Equiped_artifact
 }
 function Lifebar () {
     if (HP == 3) {
@@ -494,10 +498,10 @@ function Lifebar () {
         game.setGameOverMessage(false, "GAME OVER!")
     }
 }
-let Equiped_artifact: number[] = []
 let Invulnerability = 0
-let Direction = 0
 let projectile: Sprite = null
+let Equiped_artifact: number[] = []
+let Direction = 0
 let Damage = 0
 let HP_frame: Sprite = null
 let player_: Sprite = null
