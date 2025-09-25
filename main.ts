@@ -31,6 +31,7 @@ function fCrosshair () {
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
     Damage = 1
+    sprites.destroy(otherSprite)
 })
 function Spell_casting () {
     player_spell = sprites.createProjectileFromSprite(img`
@@ -103,6 +104,10 @@ function fInvincibility () {
         Invulnerability = 0
     }
 }
+sprites.onOverlap(SpriteKind.Friendly_projectile, SpriteKind.Projectile, function (sprite, otherSprite) {
+    sprites.destroy(otherSprite)
+    sprites.destroy(sprite)
+})
 controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
     if (Inventory_HUD_visibility == 0) {
         Inventory_HUD_visibility = 1
@@ -497,6 +502,7 @@ function Lifebar () {
         game.setGameOverMessage(false, "GAME OVER!")
     }
 }
+let projectile_4: Sprite = null
 let prueba: Sprite = null
 let projectile_3: Sprite = null
 let Equiped_artifact: number[] = []
@@ -884,6 +890,20 @@ let Array_Artifact_2 = [
 500,
 5
 ]
+// 0:RoF
+// 1:Vx
+// 2:Vy
+// 3:CD
+// 4:IT
+// 5:Repeats
+let Array_Artifact_3 = [
+0,
+0,
+50,
+3000,
+1500,
+3
+]
 forever(function () {
     Crosshair.setPosition(player_.x - Math.cos(Direction) * 10, player_.y - Math.sin(Direction) * 10)
     if (player_.y < 120) {
@@ -904,12 +924,12 @@ forever(function () {
 forever(function () {
     for (let index = 0; index < Array_Artifact_1[5]; index++) {
         projectile_3 = sprites.createProjectileFromSprite(img`
-            . 2 2 . 
-            2 2 2 2 
-            2 2 2 2 
-            . 2 2 . 
+            . 4 4 . 
+            4 2 2 4 
+            4 2 2 4 
+            . 4 4 . 
             `, Artifact_2, 0, 0)
-        projectile_3.follow(player_, 50)
+        projectile_3.follow(player_, 60)
         pause(100)
         Array_Artifact_1[1] = projectile_3.vx
         Array_Artifact_1[2] = projectile_3.vy
@@ -922,13 +942,27 @@ forever(function () {
 forever(function () {
     for (let index = 0; index < Array_Artifact_2[5]; index++) {
         prueba = sprites.createProjectileFromSprite(img`
-            . 2 2 . 
-            2 2 2 2 
-            2 2 2 2 
-            . 2 2 . 
+            . 2 2 2 . 
+            2 2 2 2 2 
+            2 2 2 2 2 
+            2 2 2 2 2 
+            . 2 2 2 . 
             `, Artifact_1, 0, 0)
         prueba.setVelocity(Array_Artifact_2[1], Array_Artifact_2[2])
         pause(Array_Artifact_2[4])
     }
     pause(Array_Artifact_2[3])
+})
+forever(function () {
+    for (let index = 0; index < Array_Artifact_3[5]; index++) {
+        projectile_4 = sprites.createProjectileFromSprite(img`
+            . 4 2 . 
+            4 2 4 2 
+            2 4 2 4 
+            . 2 4 . 
+            `, Artifact_3, 0, 0)
+        projectile_4.follow(player_, 20)
+        pause(Array_Artifact_3[4])
+    }
+    pause(Array_Artifact_3[3])
 })
