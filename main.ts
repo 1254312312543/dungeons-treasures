@@ -2,6 +2,7 @@ namespace SpriteKind {
     export const Wall = SpriteKind.create()
     export const Inventory_HUD = SpriteKind.create()
     export const UI = SpriteKind.create()
+    export const Friendly_projectile = SpriteKind.create()
 }
 function HUD_Inventory () {
     if (Inventory_HUD_visibility == 0) {
@@ -38,9 +39,7 @@ function Spell_casting () {
         8 8 8 8 
         . 8 8 . 
         `, player_, Math.cos(Direction) * (0 - Initial_artifact[1]), Math.sin(Direction) * (0 - Initial_artifact[1]))
-    if (Equiped_artifact[0] == 1) {
-    	
-    }
+    player_spell.setKind(SpriteKind.Friendly_projectile)
 }
 function fInvincibility () {
     if (0 < Damage && Invulnerability == 0) {
@@ -498,10 +497,10 @@ function Lifebar () {
         game.setGameOverMessage(false, "GAME OVER!")
     }
 }
+let prueba: Sprite = null
 let projectile_3: Sprite = null
-let projectile: Sprite = null
-let Invulnerability = 0
 let Equiped_artifact: number[] = []
+let Invulnerability = 0
 let player_spell: Sprite = null
 let Damage = 0
 let Direction = 0
@@ -867,15 +866,21 @@ let Array_Artifact_1 = [
 0,
 50,
 50,
-0,
+1500,
 500,
-1
+10
 ]
+// 0:RoF
+// 1:Vx
+// 2:Vy
+// 3:CD
+// 4:IT
+// 5:Repeats
 let Array_Artifact_2 = [
 0,
 0,
 50,
-3,
+3000,
 500,
 5
 ]
@@ -887,25 +892,14 @@ forever(function () {
         scene.cameraFollowSprite(player_)
     }
     HUD_Inventory()
-    fLife_bar_change()
     fCrosshair()
     Lifebar()
-    fInvincibility()
 })
 forever(function () {
     fLife_bar_change()
 })
 forever(function () {
-    for (let index = 0; index < Array_Artifact_2[5]; index++) {
-        projectile = sprites.createProjectileFromSprite(img`
-            . 2 2 . 
-            2 2 2 2 
-            2 2 2 2 
-            . 2 2 . 
-            `, Artifact_2, Artifact_2[1] + randint(-5, 5), Artifact_2[2])
-        pause(Array_Artifact_2[4])
-    }
-    pause(Array_Artifact_2[3])
+    fInvincibility()
 })
 forever(function () {
     for (let index = 0; index < Array_Artifact_1[5]; index++) {
@@ -924,4 +918,17 @@ forever(function () {
         pause(Array_Artifact_1[4])
     }
     pause(Array_Artifact_1[3])
+})
+forever(function () {
+    for (let index = 0; index < Array_Artifact_2[5]; index++) {
+        prueba = sprites.createProjectileFromSprite(img`
+            . 2 2 . 
+            2 2 2 2 
+            2 2 2 2 
+            . 2 2 . 
+            `, Artifact_1, 0, 0)
+        prueba.setVelocity(Array_Artifact_2[1], Array_Artifact_2[2])
+        pause(Array_Artifact_2[4])
+    }
+    pause(Array_Artifact_2[3])
 })
