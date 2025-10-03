@@ -3,6 +3,7 @@ namespace SpriteKind {
     export const Inventory_HUD = SpriteKind.create()
     export const UI = SpriteKind.create()
     export const Friendly_projectile = SpriteKind.create()
+    export const Player_Hitbox = SpriteKind.create()
 }
 function HUD_Inventory () {
     if (Inventory_HUD_visibility == 0) {
@@ -29,10 +30,6 @@ function fCrosshair () {
         Direction += 0.1
     }
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
-    Damage = 1
-    sprites.destroy(otherSprite)
-})
 function Spell_casting () {
     player_spell = sprites.createProjectileFromSprite(img`
         . 8 8 . 
@@ -106,7 +103,6 @@ function fInvincibility () {
 }
 sprites.onOverlap(SpriteKind.Friendly_projectile, SpriteKind.Projectile, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
-    sprites.destroy(sprite)
 })
 controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
     if (Inventory_HUD_visibility == 0) {
@@ -502,14 +498,17 @@ function Lifebar () {
         game.setGameOverMessage(false, "GAME OVER!")
     }
 }
+sprites.onOverlap(SpriteKind.Player_Hitbox, SpriteKind.Projectile, function (sprite, otherSprite) {
+    Damage = 1
+    sprites.destroy(otherSprite)
+})
+let projectile_3: Sprite = null
 let projectile_4: Sprite = null
 let prueba: Sprite = null
-let projectile_3: Sprite = null
 let Equiped_artifact: number[] = []
 let Invulnerability = 0
-let player_spell: Sprite = null
 let Damage = 0
-let Direction = 0
+let player_spell: Sprite = null
 let HP_frame: Sprite = null
 let player_: Sprite = null
 let Artifact_3: Sprite = null
@@ -519,10 +518,12 @@ let Inventory_box: Sprite = null
 let Inventory_HUD_visibility = 0
 let HP = 0
 let _new: number[] = []
-let Initial_artifact: number[] = []
-let Projectile_speed = 30
 let RoF = 0
+let Initial_artifact: number[] = []
+let Direction = 0
 let Defensive_damage = 0
+Direction = 1.62
+let Projectile_speed = 30
 Initial_artifact = [RoF, Projectile_speed]
 _new = [0, 50]
 HP = 3
@@ -812,7 +813,17 @@ Artifact_3 = sprites.create(img`
     `, SpriteKind.Enemy)
 Artifact_3.setPosition(135, 15)
 player_ = sprites.create(assets.image`Player`, SpriteKind.Player)
+let Players_hitbox = sprites.create(img`
+    . . . . . . 
+    . . . . . . 
+    . . 2 2 . . 
+    . . 2 2 . . 
+    . . 2 2 . . 
+    . . . . . . 
+    . . . . . . 
+    `, SpriteKind.Player_Hitbox)
 controller.moveSprite(player_, 50, 50)
+controller.moveSprite(Players_hitbox, 50, 50)
 HP_frame = sprites.create(img`
     11111111111111
     11111111111111
@@ -868,6 +879,7 @@ HP_frame = sprites.create(img`
 HP_frame.setPosition(8, 95)
 HP_frame.setFlag(SpriteFlag.RelativeToCamera, true)
 player_.setPosition(80, 150)
+Players_hitbox.setPosition(player_.x, player_.y)
 let Array_Artifact_1 = [
 0,
 50,
@@ -890,12 +902,6 @@ let Array_Artifact_2 = [
 500,
 5
 ]
-// 0:RoF
-// 1:Vx
-// 2:Vy
-// 3:CD
-// 4:IT
-// 5:Repeats
 let Array_Artifact_3 = [
 0,
 0,
@@ -914,30 +920,7 @@ forever(function () {
     HUD_Inventory()
     fCrosshair()
     Lifebar()
-})
-forever(function () {
-    fLife_bar_change()
-})
-forever(function () {
-    fInvincibility()
-})
-forever(function () {
-    for (let index = 0; index < Array_Artifact_1[5]; index++) {
-        projectile_3 = sprites.createProjectileFromSprite(img`
-            . 4 4 . 
-            4 2 2 4 
-            4 2 2 4 
-            . 4 4 . 
-            `, Artifact_2, 0, 0)
-        projectile_3.follow(player_, 60)
-        pause(100)
-        Array_Artifact_1[1] = projectile_3.vx
-        Array_Artifact_1[2] = projectile_3.vy
-        projectile_3.follow(player_, 0)
-        projectile_3.setVelocity(Array_Artifact_1[1], Array_Artifact_1[2])
-        pause(Array_Artifact_1[4])
-    }
-    pause(Array_Artifact_1[3])
+    Players_hitbox.setPosition(player_.x, player_.y)
 })
 forever(function () {
     for (let index = 0; index < Array_Artifact_2[5]; index++) {
@@ -965,4 +948,28 @@ forever(function () {
         pause(Array_Artifact_3[4])
     }
     pause(Array_Artifact_3[3])
+})
+forever(function () {
+    fInvincibility()
+})
+forever(function () {
+    fLife_bar_change()
+})
+forever(function () {
+    for (let index = 0; index < Array_Artifact_1[5]; index++) {
+        projectile_3 = sprites.createProjectileFromSprite(img`
+            . 4 4 . 
+            4 2 2 4 
+            4 2 2 4 
+            . 4 4 . 
+            `, Artifact_2, 0, 0)
+        projectile_3.follow(player_, 60)
+        pause(100)
+        Array_Artifact_1[1] = projectile_3.vx
+        Array_Artifact_1[2] = projectile_3.vy
+        projectile_3.follow(player_, 0)
+        projectile_3.setVelocity(Array_Artifact_1[1], Array_Artifact_1[2])
+        pause(Array_Artifact_1[4])
+    }
+    pause(Array_Artifact_1[3])
 })

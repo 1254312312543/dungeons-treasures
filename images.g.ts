@@ -3,6 +3,16 @@ namespace myImages {
 
     helpers._registerFactory("image", function(name: string) {
         switch(helpers.stringTrim(name)) {
+            case "image2":
+            case "Player0":return img`
+. . . . . . 
+. . . . . . 
+. . 8 8 . . 
+. . 8 8 . . 
+. . 8 8 . . 
+. . . . . . 
+. . . . . . 
+`;
             case "image1":
             case "Player":return img`
 . 8 8 8 8 . 
