@@ -5,43 +5,13 @@ namespace SpriteKind {
     export const Friendly_projectile = SpriteKind.create()
     export const Player_Hitbox = SpriteKind.create()
 }
-function HUD_Inventory () {
-    if (Inventory_HUD_visibility == 0) {
-        Inventory_box.setFlag(SpriteFlag.Invisible, false)
-        Artifact_1.setFlag(SpriteFlag.Invisible, true)
-        Artifact_2.setFlag(SpriteFlag.Invisible, true)
-        Artifact_3.setFlag(SpriteFlag.Invisible, true)
-        player_.setFlag(SpriteFlag.Invisible, true)
-    } else {
-        Inventory_box.setFlag(SpriteFlag.Invisible, true)
-        Artifact_1.setFlag(SpriteFlag.Invisible, false)
-        Artifact_2.setFlag(SpriteFlag.Invisible, false)
-        Artifact_3.setFlag(SpriteFlag.Invisible, false)
-        player_.setFlag(SpriteFlag.Invisible, false)
+function fLife_bar_change_and_invincibiliry () {
+    if (0 != Damage && Invulnerability == 1) {
+        Damage = 0
     }
-}
-controller.player2.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pressed, function () {
-    Spell_casting()
-})
-function fCrosshair () {
-    if (controller.player2.isPressed(ControllerButton.Left)) {
-        Direction += -0.1
-    } else if (controller.player2.isPressed(ControllerButton.Right)) {
-        Direction += 0.1
-    }
-}
-function Spell_casting () {
-    player_spell = sprites.createProjectileFromSprite(img`
-        . 8 8 . 
-        8 8 8 8 
-        8 8 8 8 
-        . 8 8 . 
-        `, player_, Math.cos(Direction) * (0 - Initial_artifact[1]), Math.sin(Direction) * (0 - Initial_artifact[1]))
-    player_spell.setKind(SpriteKind.Friendly_projectile)
-}
-function fInvincibility () {
-    if (0 < Damage && Invulnerability == 0) {
-        Damage += 0 - Damage
+    if (0 != Damage && Invulnerability == 0) {
+        HP += -1
+        Damage = 0
         Invulnerability = 1
         animation.runImageAnimation(
         player_,
@@ -97,9 +67,97 @@ function fInvincibility () {
         500,
         false
         )
+        animation.runImageAnimation(
+        Players_hitbox,
+        [img`
+            . 1 1 1 1 . . 
+            1 1 1 1 1 1 . 
+            1 1 1 1 1 1 . 
+            1 1 1 1 1 1 . 
+            1 1 1 1 1 1 . 
+            1 1 1 1 1 1 . 
+            1 1 1 1 1 1 . 
+            `,img`
+            . 8 8 8 8 . . 
+            8 8 8 8 8 8 . 
+            8 8 8 8 8 8 . 
+            8 8 8 8 8 8 . 
+            8 8 8 8 8 8 . 
+            8 8 8 8 8 8 . 
+            8 8 8 8 8 8 . 
+            `,img`
+            . 1 1 1 1 . . 
+            1 1 1 1 1 1 . 
+            1 1 1 1 1 1 . 
+            1 1 1 1 1 1 . 
+            1 1 1 1 1 1 . 
+            1 1 1 1 1 1 . 
+            1 1 1 1 1 1 . 
+            `,img`
+            . 8 8 8 8 . . 
+            8 8 8 8 8 8 . 
+            8 8 8 8 8 8 . 
+            8 8 8 8 8 8 . 
+            8 8 8 8 8 8 . 
+            8 8 8 8 8 8 . 
+            8 8 8 8 8 8 . 
+            `,img`
+            . 1 1 1 1 . . 
+            1 1 1 1 1 1 . 
+            1 1 1 1 1 1 . 
+            1 1 1 1 1 1 . 
+            1 1 1 1 1 1 . 
+            1 1 1 1 1 1 . 
+            1 1 1 1 1 1 . 
+            `,img`
+            . . . . . . . 
+            . . . . . . . 
+            . . 2 2 . . . 
+            . . 2 2 . . . 
+            . . 2 2 . . . 
+            . . . . . . . 
+            . . . . . . . 
+            `],
+        500,
+        false
+        )
         pause(3000)
         Invulnerability = 0
     }
+}
+function HUD_Inventory () {
+    if (Inventory_HUD_visibility == 0) {
+        Inventory_box.setFlag(SpriteFlag.Invisible, false)
+        Artifact_1.setFlag(SpriteFlag.Invisible, true)
+        Artifact_2.setFlag(SpriteFlag.Invisible, true)
+        Artifact_3.setFlag(SpriteFlag.Invisible, true)
+        player_.setFlag(SpriteFlag.Invisible, true)
+    } else {
+        Inventory_box.setFlag(SpriteFlag.Invisible, true)
+        Artifact_1.setFlag(SpriteFlag.Invisible, false)
+        Artifact_2.setFlag(SpriteFlag.Invisible, false)
+        Artifact_3.setFlag(SpriteFlag.Invisible, false)
+        player_.setFlag(SpriteFlag.Invisible, false)
+    }
+}
+controller.player2.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pressed, function () {
+    Spell_casting()
+})
+function fCrosshair () {
+    if (controller.player2.isPressed(ControllerButton.Left)) {
+        Direction += -0.1
+    } else if (controller.player2.isPressed(ControllerButton.Right)) {
+        Direction += 0.1
+    }
+}
+function Spell_casting () {
+    player_spell = sprites.createProjectileFromSprite(img`
+        . 8 8 . 
+        8 8 8 8 
+        8 8 8 8 
+        . 8 8 . 
+        `, player_, Math.cos(Direction) * (0 - Initial_artifact[1]), Math.sin(Direction) * (0 - Initial_artifact[1]))
+    player_spell.setKind(SpriteKind.Friendly_projectile)
 }
 sprites.onOverlap(SpriteKind.Friendly_projectile, SpriteKind.Projectile, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
@@ -111,14 +169,6 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
         Inventory_HUD_visibility = 0
     }
 })
-function fLife_bar_change () {
-    if (0 < Damage && Invulnerability == 1) {
-        Damage = 0
-    }
-    if (0 < Damage && Invulnerability == 0) {
-        HP += -1
-    }
-}
 function Spell_detection () {
     Equiped_artifact = [_new[0], _new[1]]
 }
@@ -502,14 +552,14 @@ sprites.onOverlap(SpriteKind.Player_Hitbox, SpriteKind.Projectile, function (spr
     Damage = 1
     sprites.destroy(otherSprite)
 })
+let prueba: Sprite = null
 let projectile_3: Sprite = null
 let projectile_4: Sprite = null
-let prueba: Sprite = null
 let Equiped_artifact: number[] = []
-let Invulnerability = 0
-let Damage = 0
 let player_spell: Sprite = null
+let Damage = 0
 let HP_frame: Sprite = null
+let Players_hitbox: Sprite = null
 let player_: Sprite = null
 let Artifact_3: Sprite = null
 let Artifact_2: Sprite = null
@@ -521,6 +571,8 @@ let _new: number[] = []
 let RoF = 0
 let Initial_artifact: number[] = []
 let Direction = 0
+let Invulnerability = 0
+Invulnerability = 0
 let Defensive_damage = 0
 Direction = 1.62
 let Projectile_speed = 30
@@ -813,12 +865,12 @@ Artifact_3 = sprites.create(img`
     `, SpriteKind.Enemy)
 Artifact_3.setPosition(135, 15)
 player_ = sprites.create(assets.image`Player`, SpriteKind.Player)
-let Players_hitbox = sprites.create(img`
+Players_hitbox = sprites.create(img`
     . . . . . . 
     . . . . . . 
-    . . 2 2 . . 
-    . . 2 2 . . 
-    . . 2 2 . . 
+    . . 8 8 . . 
+    . . 8 8 . . 
+    . . 8 8 . . 
     . . . . . . 
     . . . . . . 
     `, SpriteKind.Player_Hitbox)
@@ -920,21 +972,9 @@ forever(function () {
     HUD_Inventory()
     fCrosshair()
     Lifebar()
-    Players_hitbox.setPosition(player_.x, player_.y)
 })
 forever(function () {
-    for (let index = 0; index < Array_Artifact_2[5]; index++) {
-        prueba = sprites.createProjectileFromSprite(img`
-            . 2 2 2 . 
-            2 2 2 2 2 
-            2 2 2 2 2 
-            2 2 2 2 2 
-            . 2 2 2 . 
-            `, Artifact_1, 0, 0)
-        prueba.setVelocity(Array_Artifact_2[1], Array_Artifact_2[2])
-        pause(Array_Artifact_2[4])
-    }
-    pause(Array_Artifact_2[3])
+    Players_hitbox.setPosition(player_.x, player_.y)
 })
 forever(function () {
     for (let index = 0; index < Array_Artifact_3[5]; index++) {
@@ -950,10 +990,7 @@ forever(function () {
     pause(Array_Artifact_3[3])
 })
 forever(function () {
-    fInvincibility()
-})
-forever(function () {
-    fLife_bar_change()
+    fLife_bar_change_and_invincibiliry()
 })
 forever(function () {
     for (let index = 0; index < Array_Artifact_1[5]; index++) {
@@ -972,4 +1009,18 @@ forever(function () {
         pause(Array_Artifact_1[4])
     }
     pause(Array_Artifact_1[3])
+})
+forever(function () {
+    for (let index = 0; index < Array_Artifact_2[5]; index++) {
+        prueba = sprites.createProjectileFromSprite(img`
+            . 2 2 2 . 
+            2 2 2 2 2 
+            2 2 2 2 2 
+            2 2 2 2 2 
+            . 2 2 2 . 
+            `, Artifact_1, 0, 0)
+        prueba.setVelocity(Array_Artifact_2[1], Array_Artifact_2[2])
+        pause(Array_Artifact_2[4])
+    }
+    pause(Array_Artifact_2[3])
 })
