@@ -4,6 +4,9 @@ namespace SpriteKind {
     export const UI = SpriteKind.create()
     export const Friendly_projectile = SpriteKind.create()
     export const Player_Hitbox = SpriteKind.create()
+    export const Following_spell = SpriteKind.create()
+    export const Speedy_spell = SpriteKind.create()
+    export const Big_spell = SpriteKind.create()
 }
 function HUD_Inventory () {
     if (Inventory_HUD_visibility == 0) {
@@ -20,6 +23,9 @@ function HUD_Inventory () {
         player_.setFlag(SpriteFlag.Invisible, false)
     }
 }
+info.onCountdownEnd(function () {
+	
+})
 controller.player2.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pressed, function () {
     Spell_casting()
 })
@@ -40,6 +46,7 @@ function Spell_casting () {
     player_spell.setKind(SpriteKind.Friendly_projectile)
 }
 sprites.onOverlap(SpriteKind.Friendly_projectile, SpriteKind.Projectile, function (sprite, otherSprite) {
+    Proyectiles_in_screen += -1
     sprites.destroy(otherSprite)
 })
 controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -153,9 +160,9 @@ function fLife_bar_change () {
             `,img`
             . . . . . . . 
             . . . . . . . 
-            . . 2 2 . . . 
-            . . 2 2 . . . 
-            . . 2 2 . . . 
+            . . 8 8 . . . 
+            . . 8 8 . . . 
+            . . 8 8 . . . 
             . . . . . . . 
             . . . . . . . 
             `],
@@ -166,6 +173,23 @@ function fLife_bar_change () {
         Invulnerability = 0
     }
 }
+sprites.onCreated(SpriteKind.Projectile, function (sprite) {
+    timer.after(100, function () {
+        if (sprite.kind() == SpriteKind.Following_spell) {
+            timer.after(2000, function () {
+                sprites.destroy(sprite)
+            })
+        } else if (false) {
+        	
+        } else if (false) {
+        	
+        } else if (false) {
+        	
+        } else {
+        	
+        }
+    })
+})
 function Spell_detection () {
     Equiped_artifact = [_new[0], _new[1]]
 }
@@ -542,7 +566,6 @@ function Lifebar () {
             11111111111111
             `)
         game.gameOver(false)
-        game.setGameOverMessage(false, "GAME OVER!")
     }
 }
 sprites.onOverlap(SpriteKind.Player_Hitbox, SpriteKind.Projectile, function (sprite, otherSprite) {
@@ -550,11 +573,12 @@ sprites.onOverlap(SpriteKind.Player_Hitbox, SpriteKind.Projectile, function (spr
     if (0 < Damage && Invulnerability == 1) {
         Damage = 0
     }
+    Proyectiles_in_screen += -1
     sprites.destroy(otherSprite)
 })
+let prueba: Sprite = null
 let projectile_3: Sprite = null
 let projectile_4: Sprite = null
-let prueba: Sprite = null
 let Equiped_artifact: number[] = []
 let Invulnerability = 0
 let Damage = 0
@@ -572,7 +596,7 @@ let _new: number[] = []
 let RoF = 0
 let Initial_artifact: number[] = []
 let Direction = 0
-let Defensive_damage = 0
+let Proyectiles_in_screen = 0
 Direction = 1.62
 let Projectile_speed = 30
 Initial_artifact = [RoF, Projectile_speed]
@@ -867,9 +891,9 @@ player_ = sprites.create(assets.image`Player`, SpriteKind.Player)
 Players_hitbox = sprites.create(img`
     . . . . . . 
     . . . . . . 
-    . . 2 2 . . 
-    . . 2 2 . . 
-    . . 2 2 . . 
+    . . 8 8 . . 
+    . . 8 8 . . 
+    . . 8 8 . . 
     . . . . . . 
     . . . . . . 
     `, SpriteKind.Player_Hitbox)
@@ -974,50 +998,59 @@ forever(function () {
     Players_hitbox.setPosition(player_.x, player_.y)
 })
 forever(function () {
-    for (let index = 0; index < Array_Artifact_2[5]; index++) {
-        prueba = sprites.createProjectileFromSprite(img`
-            . 2 2 2 . 
-            2 2 2 2 2 
-            2 2 2 2 2 
-            2 2 2 2 2 
-            . 2 2 2 . 
-            `, Artifact_1, 0, 0)
-        prueba.setVelocity(Array_Artifact_2[1], Array_Artifact_2[2])
-        pause(Array_Artifact_2[4])
-    }
-    pause(Array_Artifact_2[3])
+    fLife_bar_change()
 })
 forever(function () {
     for (let index = 0; index < Array_Artifact_3[5]; index++) {
-        projectile_4 = sprites.createProjectileFromSprite(img`
-            . 4 2 . 
-            4 2 4 2 
-            2 4 2 4 
-            . 2 4 . 
-            `, Artifact_3, 0, 0)
-        projectile_4.follow(player_, 20)
-        pause(Array_Artifact_3[4])
+        if (Proyectiles_in_screen < 25) {
+            projectile_4 = sprites.createProjectileFromSprite(img`
+                . 4 2 . 
+                4 2 4 2 
+                2 4 2 4 
+                . 2 4 . 
+                `, Artifact_3, 0, 0)
+            projectile_4.setKind(SpriteKind.Following_spell)
+            projectile_4.follow(player_, 20)
+            pause(Array_Artifact_3[4])
+        }
     }
     pause(Array_Artifact_3[3])
 })
 forever(function () {
-    fLife_bar_change()
-})
-forever(function () {
     for (let index = 0; index < Array_Artifact_1[5]; index++) {
-        projectile_3 = sprites.createProjectileFromSprite(img`
-            . 4 4 . 
-            4 2 2 4 
-            4 2 2 4 
-            . 4 4 . 
-            `, Artifact_2, 0, 0)
-        projectile_3.follow(player_, 60)
-        pause(100)
-        Array_Artifact_1[1] = projectile_3.vx
-        Array_Artifact_1[2] = projectile_3.vy
-        projectile_3.follow(player_, 0)
-        projectile_3.setVelocity(Array_Artifact_1[1], Array_Artifact_1[2])
-        pause(Array_Artifact_1[4])
+        if (Proyectiles_in_screen < 25) {
+            projectile_3 = sprites.createProjectileFromSprite(img`
+                . 4 4 . 
+                4 2 2 4 
+                4 2 2 4 
+                . 4 4 . 
+                `, Artifact_2, 0, 0)
+            projectile_3.setKind(SpriteKind.Speedy_spell)
+            projectile_3.follow(player_, 60)
+            pause(100)
+            Array_Artifact_1[1] = projectile_3.vx
+            Array_Artifact_1[2] = projectile_3.vy
+            projectile_3.follow(player_, 0)
+            projectile_3.setVelocity(Array_Artifact_1[1], Array_Artifact_1[2])
+            pause(Array_Artifact_1[4])
+        }
     }
     pause(Array_Artifact_1[3])
+})
+forever(function () {
+    for (let index = 0; index < Array_Artifact_2[5]; index++) {
+        if (Proyectiles_in_screen < 25) {
+            prueba = sprites.createProjectileFromSprite(img`
+                . 2 2 2 . 
+                2 2 2 2 2 
+                2 2 2 2 2 
+                2 2 2 2 2 
+                . 2 2 2 . 
+                `, Artifact_1, 0, 0)
+            prueba.setKind(SpriteKind.Big_spell)
+            prueba.setVelocity(Array_Artifact_2[1], Array_Artifact_2[2])
+            pause(Array_Artifact_2[4])
+        }
+    }
+    pause(Array_Artifact_2[3])
 })
