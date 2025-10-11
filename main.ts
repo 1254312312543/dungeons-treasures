@@ -26,6 +26,22 @@ function HUD_Inventory () {
 info.onCountdownEnd(function () {
 	
 })
+sprites.onOverlap(SpriteKind.Player_Hitbox, SpriteKind.Following_spell, function (sprite, otherSprite) {
+    Damage = 1
+    if (0 < Damage && Invulnerability == 1) {
+        Damage = 0
+    }
+    Proyectiles_in_screen += -1
+    sprites.destroy(otherSprite)
+})
+sprites.onOverlap(SpriteKind.Player_Hitbox, SpriteKind.Speedy_spell, function (sprite, otherSprite) {
+    Damage = 1
+    if (0 < Damage && Invulnerability == 1) {
+        Damage = 0
+    }
+    Proyectiles_in_screen += -1
+    sprites.destroy(otherSprite)
+})
 controller.player2.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pressed, function () {
     Spell_casting()
 })
@@ -55,6 +71,14 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
     } else {
         Inventory_HUD_visibility = 0
     }
+})
+sprites.onOverlap(SpriteKind.Player_Hitbox, SpriteKind.Big_spell, function (sprite, otherSprite) {
+    Damage = 1
+    if (0 < Damage && Invulnerability == 1) {
+        Damage = 0
+    }
+    Proyectiles_in_screen += -1
+    sprites.destroy(otherSprite)
 })
 function fLife_bar_change () {
     if (0 < Damage && Invulnerability == 0) {
@@ -176,17 +200,23 @@ function fLife_bar_change () {
 sprites.onCreated(SpriteKind.Projectile, function (sprite) {
     timer.after(100, function () {
         if (sprite.kind() == SpriteKind.Following_spell) {
-            timer.after(2000, function () {
-                sprites.destroy(sprite)
+            timer.background(function () {
+                timer.after(2000, function () {
+                    sprites.destroy(sprite)
+                })
             })
-        } else if (false) {
-        	
-        } else if (false) {
-        	
-        } else if (false) {
-        	
-        } else {
-        	
+        } else if (sprite.kind() == SpriteKind.Speedy_spell) {
+            timer.background(function () {
+                timer.after(2000, function () {
+                    sprites.destroy(sprite)
+                })
+            })
+        } else if (sprite.kind() == SpriteKind.Big_spell) {
+            timer.background(function () {
+                timer.after(2000, function () {
+                    sprites.destroy(sprite)
+                })
+            })
         }
     })
 })
@@ -568,21 +598,13 @@ function Lifebar () {
         game.gameOver(false)
     }
 }
-sprites.onOverlap(SpriteKind.Player_Hitbox, SpriteKind.Projectile, function (sprite, otherSprite) {
-    Damage = 1
-    if (0 < Damage && Invulnerability == 1) {
-        Damage = 0
-    }
-    Proyectiles_in_screen += -1
-    sprites.destroy(otherSprite)
-})
 let prueba: Sprite = null
 let projectile_3: Sprite = null
 let projectile_4: Sprite = null
 let Equiped_artifact: number[] = []
+let player_spell: Sprite = null
 let Invulnerability = 0
 let Damage = 0
-let player_spell: Sprite = null
 let HP_frame: Sprite = null
 let Players_hitbox: Sprite = null
 let player_: Sprite = null
