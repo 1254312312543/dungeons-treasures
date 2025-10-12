@@ -23,25 +23,6 @@ function HUD_Inventory () {
         player_.setFlag(SpriteFlag.Invisible, false)
     }
 }
-info.onCountdownEnd(function () {
-	
-})
-sprites.onOverlap(SpriteKind.Player_Hitbox, SpriteKind.Following_spell, function (sprite, otherSprite) {
-    Damage = 1
-    if (0 < Damage && Invulnerability == 1) {
-        Damage = 0
-    }
-    Proyectiles_in_screen += -1
-    sprites.destroy(otherSprite)
-})
-sprites.onOverlap(SpriteKind.Player_Hitbox, SpriteKind.Speedy_spell, function (sprite, otherSprite) {
-    Damage = 1
-    if (0 < Damage && Invulnerability == 1) {
-        Damage = 0
-    }
-    Proyectiles_in_screen += -1
-    sprites.destroy(otherSprite)
-})
 controller.player2.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pressed, function () {
     Spell_casting()
 })
@@ -71,14 +52,6 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
     } else {
         Inventory_HUD_visibility = 0
     }
-})
-sprites.onOverlap(SpriteKind.Player_Hitbox, SpriteKind.Big_spell, function (sprite, otherSprite) {
-    Damage = 1
-    if (0 < Damage && Invulnerability == 1) {
-        Damage = 0
-    }
-    Proyectiles_in_screen += -1
-    sprites.destroy(otherSprite)
 })
 function fLife_bar_change () {
     if (0 < Damage && Invulnerability == 0) {
@@ -197,22 +170,65 @@ function fLife_bar_change () {
         Invulnerability = 0
     }
 }
+sprites.onOverlap(SpriteKind.Friendly_projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    sprites.setDataNumber(otherSprite, "HP", sprites.readDataNumber(otherSprite, "HP") - 10)
+    sprites.destroy(sprite)
+    if (sprites.readDataNumber(otherSprite, "HP") < 1) {
+        sprites.destroy(otherSprite)
+    }
+})
+function Establecer_Artifacts () {
+    Array_Artifact_1 = [
+    0,
+    50,
+    50,
+    1500,
+    500,
+    10
+    ]
+    // 0:RoF
+    // 1:Vx
+    // 2:Vy
+    // 3:CD
+    // 4:IT
+    // 5:Repeats
+    // 6:HP
+    Array_Artifact_2 = [
+    0,
+    0,
+    50,
+    3000,
+    500,
+    5
+    ]
+    Array_Artifact_3 = [
+    0,
+    0,
+    50,
+    3000,
+    1500,
+    3
+    ]
+}
 sprites.onCreated(SpriteKind.Projectile, function (sprite) {
     timer.after(100, function () {
         if (sprite.kind() == SpriteKind.Following_spell) {
             timer.background(function () {
-                timer.after(2000, function () {
+                sprite.setKind(SpriteKind.Projectile)
+                timer.after(6000, function () {
                     sprites.destroy(sprite)
                 })
             })
         } else if (sprite.kind() == SpriteKind.Speedy_spell) {
             timer.background(function () {
+                sprite.setKind(SpriteKind.Projectile)
                 timer.after(2000, function () {
                     sprites.destroy(sprite)
                 })
             })
         } else if (sprite.kind() == SpriteKind.Big_spell) {
             timer.background(function () {
+                sprite.setKind(SpriteKind.Projectile)
                 timer.after(2000, function () {
                     sprites.destroy(sprite)
                 })
@@ -598,13 +614,25 @@ function Lifebar () {
         game.gameOver(false)
     }
 }
+sprites.onOverlap(SpriteKind.Player_Hitbox, SpriteKind.Projectile, function (sprite, otherSprite) {
+    Damage = 1
+    if (0 < Damage && Invulnerability == 1) {
+        Damage = 0
+    }
+    Proyectiles_in_screen += -1
+    sprites.destroy(otherSprite)
+})
 let prueba: Sprite = null
 let projectile_3: Sprite = null
 let projectile_4: Sprite = null
+let Level_HP = 0
 let Equiped_artifact: number[] = []
-let player_spell: Sprite = null
+let Array_Artifact_3: number[] = []
+let Array_Artifact_2: number[] = []
+let Array_Artifact_1: number[] = []
 let Invulnerability = 0
 let Damage = 0
+let player_spell: Sprite = null
 let HP_frame: Sprite = null
 let Players_hitbox: Sprite = null
 let player_: Sprite = null
@@ -874,7 +902,8 @@ Artifact_1 = sprites.create(img`
     . . 2 2 2 2 2 2 2 2 2 2 . . 
     . . . 2 2 2 2 2 2 2 2 . . . 
     `, SpriteKind.Enemy)
-Artifact_1.setPosition(80, 8)
+Artifact_1.setPosition(80, 13)
+sprites.setDataNumber(Artifact_1, "HP", 50)
 Artifact_2 = sprites.create(img`
     3 3 3 3 3 3 3 3 3 3 3 3 3 3 
     3 3 3 3 3 3 3 3 3 3 3 3 3 3 
@@ -891,7 +920,8 @@ Artifact_2 = sprites.create(img`
     . . 3 3 3 3 3 3 3 3 3 3 . . 
     . . . 3 3 3 3 3 3 3 3 . . . 
     `, SpriteKind.Enemy)
-Artifact_2.setPosition(25, 15)
+Artifact_2.setPosition(25, 16)
+sprites.setDataNumber(Artifact_2, "HP", 50)
 Artifact_3 = sprites.create(img`
     7 7 7 7 7 7 7 7 7 7 7 7 7 7 
     7 7 7 7 7 7 7 7 7 7 7 7 7 7 
@@ -908,7 +938,8 @@ Artifact_3 = sprites.create(img`
     . . 7 7 7 7 7 7 7 7 7 7 . . 
     . . . 7 7 7 7 7 7 7 7 . . . 
     `, SpriteKind.Enemy)
-Artifact_3.setPosition(135, 15)
+Artifact_3.setPosition(135, 16)
+sprites.setDataNumber(Artifact_3, "HP", 50)
 player_ = sprites.create(assets.image`Player`, SpriteKind.Player)
 Players_hitbox = sprites.create(img`
     . . . . . . 
@@ -977,36 +1008,7 @@ HP_frame.setPosition(8, 95)
 HP_frame.setFlag(SpriteFlag.RelativeToCamera, true)
 player_.setPosition(80, 150)
 Players_hitbox.setPosition(player_.x, player_.y)
-let Array_Artifact_1 = [
-0,
-50,
-50,
-1500,
-500,
-10
-]
-// 0:RoF
-// 1:Vx
-// 2:Vy
-// 3:CD
-// 4:IT
-// 5:Repeats
-let Array_Artifact_2 = [
-0,
-0,
-50,
-3000,
-500,
-5
-]
-let Array_Artifact_3 = [
-0,
-0,
-50,
-3000,
-1500,
-3
-]
+Establecer_Artifacts()
 forever(function () {
     Crosshair.setPosition(player_.x - Math.cos(Direction) * 10, player_.y - Math.sin(Direction) * 10)
     if (player_.y < 120) {
@@ -1018,13 +1020,18 @@ forever(function () {
     fCrosshair()
     Lifebar()
     Players_hitbox.setPosition(player_.x, player_.y)
+    Level_HP = sprites.readDataNumber(Artifact_3, "HP") + (sprites.readDataNumber(Artifact_2, "HP") + sprites.readDataNumber(Artifact_1, "HP"))
+    if (Level_HP < 1) {
+        game.gameOver(true)
+        game.setGameOverEffect(true, effects.confetti)
+    }
 })
 forever(function () {
     fLife_bar_change()
 })
 forever(function () {
     for (let index = 0; index < Array_Artifact_3[5]; index++) {
-        if (Proyectiles_in_screen < 25) {
+        if (sprites.readDataNumber(Artifact_3, "HP") > 0) {
             projectile_4 = sprites.createProjectileFromSprite(img`
                 . 4 2 . 
                 4 2 4 2 
@@ -1040,7 +1047,7 @@ forever(function () {
 })
 forever(function () {
     for (let index = 0; index < Array_Artifact_1[5]; index++) {
-        if (Proyectiles_in_screen < 25) {
+        if (sprites.readDataNumber(Artifact_2, "HP") > 0) {
             projectile_3 = sprites.createProjectileFromSprite(img`
                 . 4 4 . 
                 4 2 2 4 
@@ -1061,7 +1068,7 @@ forever(function () {
 })
 forever(function () {
     for (let index = 0; index < Array_Artifact_2[5]; index++) {
-        if (Proyectiles_in_screen < 25) {
+        if (sprites.readDataNumber(Artifact_1, "HP") > 0) {
             prueba = sprites.createProjectileFromSprite(img`
                 . 2 2 2 . 
                 2 2 2 2 2 
