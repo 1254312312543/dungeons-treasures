@@ -7,6 +7,36 @@ namespace SpriteKind {
     export const Following_spell = SpriteKind.create()
     export const Speedy_spell = SpriteKind.create()
     export const Big_spell = SpriteKind.create()
+    export const Trap = SpriteKind.create()
+}
+function Trap_spell (Artifact: Sprite, Artifact_array: any[]) {
+    if (sprites.readDataNumber(Artifact, "HP") > 0) {
+        projectile_3 = sprites.createProjectileFromSprite(img`
+            ...................
+            ...................
+            ....ccc.ccc.ccc....
+            ...................
+            ...................
+            ..ccc.ccc.ccc.ccc..
+            ...................
+            ...................
+            ccc.ccc.ccc.ccc.ccc
+            ...................
+            ...................
+            ..ccc.ccc.ccc.ccc..
+            ...................
+            ...................
+            ccc.ccc.ccc.ccc.ccc
+            ...................
+            ...................
+            ..ccc.ccc.ccc.ccc..
+            ...................
+            ...................
+            ....ccc.ccc.ccc....
+            `, Artifact, 0, 0)
+        projectile_3.setKind(SpriteKind.Trap)
+        projectile_3.setPosition(player_.x, player_.y)
+    }
 }
 function Define_Artifacts () {
     Array_Artifact_1 = [
@@ -15,7 +45,8 @@ function Define_Artifacts () {
     50,
     1500,
     500,
-    5
+    5,
+    randint(0, 3)
     ]
     // 0:RoF
     // 1:BVx
@@ -28,7 +59,8 @@ function Define_Artifacts () {
     50,
     3000,
     500,
-    6
+    6,
+    randint(0, 3)
     ]
     Array_Artifact_3 = [
     0,
@@ -36,7 +68,8 @@ function Define_Artifacts () {
     50,
     3000,
     1500,
-    3
+    3,
+    randint(0, 3)
     ]
 }
 function Big_Spell (Artifact: Sprite, Artifact_array: any[]) {
@@ -93,10 +126,16 @@ function Spell_casting () {
         . 8 8 . 
         `, player_, Math.cos(Direction) * (0 - Initial_artifact[1]), Math.sin(Direction) * (0 - Initial_artifact[1]))
     player_spell.setKind(SpriteKind.Friendly_projectile)
+    timer.background(function () {
+        music.play(music.createSoundEffect(WaveShape.Noise, 3515, 817, 125, 0, 400, SoundExpressionEffect.Tremolo, InterpolationCurve.Logarithmic), music.PlaybackMode.UntilDone)
+    })
 }
 sprites.onOverlap(SpriteKind.Friendly_projectile, SpriteKind.Projectile, function (sprite, otherSprite) {
     Proyectiles_in_screen += -1
     sprites.destroy(otherSprite)
+    timer.background(function () {
+        music.play(music.createSoundEffect(WaveShape.Noise, 1105, 565, 75, 75, 100, SoundExpressionEffect.Tremolo, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
+    })
 })
 function Speedy_Spell (Artifact: Sprite, Artifact_array: number[]) {
     if (sprites.readDataNumber(Artifact, "HP") > 0) {
@@ -108,11 +147,12 @@ function Speedy_Spell (Artifact: Sprite, Artifact_array: number[]) {
             `, Artifact, 0, 0)
         projectile_3.setKind(SpriteKind.Speedy_spell)
         projectile_3.follow(player_, 60)
-        pause(100)
-        Artifact_array[1] = projectile_3.vx
-        Artifact_array[2] = projectile_3.vy
-        projectile_3.follow(player_, 0)
-        projectile_3.setVelocity(Artifact_array[1], Artifact_array[2])
+        timer.after(100, function () {
+            Artifact_array[1] = projectile_3.vx
+            Artifact_array[2] = projectile_3.vy
+            projectile_3.follow(player_, 0)
+            projectile_3.setVelocity(Artifact_array[1], Artifact_array[2])
+        })
     }
 }
 controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -245,6 +285,9 @@ sprites.onOverlap(SpriteKind.Friendly_projectile, SpriteKind.Enemy, function (sp
     if (sprites.readDataNumber(otherSprite, "HP") < 1) {
         sprites.destroy(otherSprite)
     }
+    timer.background(function () {
+        music.play(music.createSoundEffect(WaveShape.Noise, 2534, 1995, 208, 75, 300, SoundExpressionEffect.Tremolo, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
+    })
 })
 sprites.onCreated(SpriteKind.Projectile, function (sprite) {
     timer.after(100, function () {
@@ -266,6 +309,38 @@ sprites.onCreated(SpriteKind.Projectile, function (sprite) {
             timer.background(function () {
                 sprite.setKind(SpriteKind.Projectile)
                 timer.after(2000, function () {
+                    sprites.destroy(sprite)
+                })
+            })
+        } else if (sprite.kind() == SpriteKind.Trap) {
+            timer.background(function () {
+                timer.after(1000, function () {
+                    sprite.setImage(img`
+                        .....2...2...2.....
+                        ....222.222.222....
+                        ....222.222.222....
+                        ...2...2...2...2...
+                        ..222.222.222.222..
+                        ..222.222.222.222..
+                        .2...2...2...2...2.
+                        222.222.222.222.222
+                        222.222.222.222.222
+                        ...2...2...2...2...
+                        ..222.222.222.222..
+                        ..222.222.222.222..
+                        .2...2...2...2...2.
+                        222.222.222.222.222
+                        222.222.222.222.222
+                        ...2...2...2...2...
+                        ..222.222.222.222..
+                        ..222.222.222.222..
+                        .....2...2...2.....
+                        ....222.222.222....
+                        ....222.222.222....
+                        `)
+                    sprite.setKind(SpriteKind.Projectile)
+                })
+                timer.after(3000, function () {
                     sprites.destroy(sprite)
                 })
             })
@@ -657,12 +732,15 @@ sprites.onOverlap(SpriteKind.Player_Hitbox, SpriteKind.Projectile, function (spr
     }
     Proyectiles_in_screen += -1
     sprites.destroy(otherSprite)
+    timer.background(function () {
+        music.play(music.createSoundEffect(WaveShape.Noise, 1504, 228, 125, 0, 200, SoundExpressionEffect.Tremolo, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
+    })
 })
+let Level = 0
 let Level_HP = 0
 let Equiped_artifact: number[] = []
 let Invulnerability = 0
 let Damage = 0
-let projectile_3: Sprite = null
 let Proyectiles_in_screen = 0
 let player_spell: Sprite = null
 let projectile_4: Sprite = null
@@ -670,6 +748,7 @@ let prueba: Sprite = null
 let Array_Artifact_3: number[] = []
 let Array_Artifact_2: number[] = []
 let Array_Artifact_1: number[] = []
+let projectile_3: Sprite = null
 let HP_frame: Sprite = null
 let Players_hitbox: Sprite = null
 let player_: Sprite = null
@@ -683,7 +762,7 @@ let _new: number[] = []
 let RoF = 0
 let Initial_artifact: number[] = []
 let Direction = 0
-let Level = 0
+music.play(music.createSong(hex`0078000408030303001c0001dc00690000045e01000400000000000000000000056400010400034c0000000400021d2408000c0001201000140001241800200002242920002400012a28002c00012930003400021d2438003c0001204000440001244800500002242c50005400012a58005c00012906001c00010a006400f4016400000400000000000000000000000000000000022a0000001000020a0c10001800020d0f18002800020c0d30004000020a0c40004800020d0f48005800020c0d09010e02026400000403780000040a000301000000640001c80000040100000000640001640000040100000000fa0004af00000401c80000040a00019600000414000501006400140005010000002c0104dc00000401fa0000040a0001c8000004140005d0076400140005d0070000c800029001f40105c201f4010a0005900114001400039001000005c201f4010500058403050032000584030000fa00049001000005c201f4010500058403c80032000584030500640005840300009001049001000005c201f4010500058403c80064000584030500c8000584030000f40105ac0d000404a00f00000a0004ac0d2003010004a00f0000280004ac0d9001010004a00f0000280002d00700040408070f0064000408070000c80003c800c8000e7d00c80019000e64000f0032000e78000000fa00032c01c8000ee100c80019000ec8000f0032000edc000000fa0003f401c8000ea901c80019000e90010f0032000ea4010000fa0001c8000004014b000000c800012c01000401c8000000c8000190010004012c010000c80002c800000404c8000f0064000496000000c80002c2010004045e010f006400042c010000640002c409000404c4096400960004f6090000f40102b80b000404b80b64002c0104f40b0000f401022003000004200300040a000420030000ea01029001000004900100040a000490010000900102d007000410d0076400960010d0070000c8003b00000001000314010204000500020102080009000200010c000d0002000130003100031401023400350003130102380039000200013c003d00020001`), music.PlaybackMode.LoopingInBackground)
 Direction = 1.62
 let Projectile_speed = 30
 Initial_artifact = [RoF, Projectile_speed]
@@ -939,7 +1018,7 @@ Artifact_1 = sprites.create(img`
     . . 2 2 2 2 2 2 2 2 2 2 . . 
     . . . 2 2 2 2 2 2 2 2 . . . 
     `, SpriteKind.Enemy)
-Artifact_1.setPosition(80, 13)
+Artifact_1.setPosition(80, 15)
 sprites.setDataNumber(Artifact_1, "HP", 50)
 Artifact_2 = sprites.create(img`
     3 3 3 3 3 3 3 3 3 3 3 3 3 3 
@@ -957,7 +1036,7 @@ Artifact_2 = sprites.create(img`
     . . 3 3 3 3 3 3 3 3 3 3 . . 
     . . . 3 3 3 3 3 3 3 3 . . . 
     `, SpriteKind.Enemy)
-Artifact_2.setPosition(25, 16)
+Artifact_2.setPosition(25, 17)
 sprites.setDataNumber(Artifact_2, "HP", 50)
 Artifact_3 = sprites.create(img`
     7 7 7 7 7 7 7 7 7 7 7 7 7 7 
@@ -975,7 +1054,7 @@ Artifact_3 = sprites.create(img`
     . . 7 7 7 7 7 7 7 7 7 7 . . 
     . . . 7 7 7 7 7 7 7 7 . . . 
     `, SpriteKind.Enemy)
-Artifact_3.setPosition(135, 16)
+Artifact_3.setPosition(135, 17)
 sprites.setDataNumber(Artifact_3, "HP", 50)
 player_ = sprites.create(assets.image`Player`, SpriteKind.Player)
 Players_hitbox = sprites.create(img`
@@ -1062,6 +1141,7 @@ forever(function () {
         tiles.setCurrentTilemap(tilemap`level0`)
     }
     if (Players_hitbox.y <= 5) {
+        music.play(music.melodyPlayable(music.magicWand), music.PlaybackMode.InBackground)
         tiles.setCurrentTilemap(tilemap`level1`)
         Level += 1
         Define_Artifacts()
@@ -1129,25 +1209,51 @@ forever(function () {
 forever(function () {
     for (let index = 0; index < Array_Artifact_3[5]; index++) {
         if (sprites.readDataNumber(Artifact_3, "HP") > 0) {
-            Following_Spell(Artifact_3, Array_Artifact_3)
-            pause(Array_Artifact_3[4])
+            if (Array_Artifact_3[6] == 0) {
+                Big_Spell(Artifact_3, Array_Artifact_3)
+            } else if (Array_Artifact_3[6] == 1) {
+                Trap_spell(Artifact_3, Array_Artifact_3)
+            } else if (Array_Artifact_3[6] == 2) {
+                Following_Spell(Artifact_3, Array_Artifact_3)
+            } else if (Array_Artifact_3[6] == 3) {
+                Speedy_Spell(Artifact_3, Array_Artifact_3)
+            }
         }
+        pause(Array_Artifact_3[4])
     }
     pause(Array_Artifact_3[3])
 })
 forever(function () {
-    for (let index = 0; index < Array_Artifact_1[5]; index++) {
-        Speedy_Spell(Artifact_2, Array_Artifact_2)
-        pause(Array_Artifact_1[4])
-    }
-    pause(Array_Artifact_1[3])
-})
-forever(function () {
     for (let index = 0; index < Array_Artifact_2[5]; index++) {
-        if (sprites.readDataNumber(Artifact_1, "HP") > 0) {
-            Big_Spell(Artifact_1, Array_Artifact_1)
+        if (sprites.readDataNumber(Artifact_2, "HP") > 0) {
+            if (Array_Artifact_2[6] == 0) {
+                Big_Spell(Artifact_2, Array_Artifact_2)
+            } else if (Array_Artifact_2[6] == 1) {
+                Trap_spell(Artifact_2, Array_Artifact_2)
+            } else if (Array_Artifact_2[6] == 2) {
+                Following_Spell(Artifact_2, Array_Artifact_2)
+            } else if (Array_Artifact_2[6] == 3) {
+                Speedy_Spell(Artifact_2, Array_Artifact_2)
+            }
             pause(Array_Artifact_2[4])
         }
     }
     pause(Array_Artifact_2[3])
+})
+forever(function () {
+    for (let index = 0; index < Array_Artifact_1[5]; index++) {
+        if (sprites.readDataNumber(Artifact_1, "HP") > 0) {
+            if (Array_Artifact_1[6] == 0) {
+                Big_Spell(Artifact_1, Array_Artifact_1)
+            } else if (Array_Artifact_1[6] == 1) {
+                Trap_spell(Artifact_1, Array_Artifact_1)
+            } else if (Array_Artifact_1[6] == 2) {
+                Following_Spell(Artifact_1, Array_Artifact_1)
+            } else if (Array_Artifact_1[6] == 3) {
+                Speedy_Spell(Artifact_1, Array_Artifact_1)
+            }
+            pause(Array_Artifact_1[4])
+        }
+    }
+    pause(Array_Artifact_1[3])
 })
