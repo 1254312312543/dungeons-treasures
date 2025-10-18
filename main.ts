@@ -38,24 +38,6 @@ function Define_Artifacts () {
     1500,
     3
     ]
-    sprites.setDataString(Artifact_1, "Spell_1", "" + randint(4, 6))
-    sprites.setDataString(Artifact_1, "Spell_2", "" + randint(4, 6))
-    sprites.setDataString(Artifact_1, "Spell_3", "" + randint(4, 6))
-    sprites.setDataString(Artifact_1, "Spell_4", "" + randint(1, 6))
-    sprites.setDataString(Artifact_1, "Spell_5", "" + randint(1, 6))
-    sprites.setDataString(Artifact_1, "Spell_6", "" + randint(1, 6))
-    sprites.setDataString(Artifact_2, "Spell_1", "" + randint(4, 6))
-    sprites.setDataString(Artifact_2, "Spell_2", "" + randint(4, 6))
-    sprites.setDataString(Artifact_2, "Spell_3", "" + randint(4, 6))
-    sprites.setDataString(Artifact_2, "Spell_4", "" + randint(1, 6))
-    sprites.setDataString(Artifact_2, "Spell_5", "" + randint(1, 6))
-    sprites.setDataString(Artifact_2, "Spell_6", "" + randint(1, 6))
-    sprites.setDataString(Artifact_3, "Spell_1", "" + randint(4, 6))
-    sprites.setDataString(Artifact_3, "Spell_2", "" + randint(4, 6))
-    sprites.setDataString(Artifact_3, "Spell_3", "" + randint(4, 6))
-    sprites.setDataString(Artifact_3, "Spell_4", "" + randint(1, 6))
-    sprites.setDataString(Artifact_3, "Spell_5", "" + randint(1, 6))
-    sprites.setDataString(Artifact_3, "Spell_6", "" + randint(1, 6))
 }
 function Big_Spell (Artifact: Sprite, Artifact_array: any[]) {
     prueba = sprites.createProjectileFromSprite(img`
@@ -681,6 +663,7 @@ let Equiped_artifact: number[] = []
 let Invulnerability = 0
 let Damage = 0
 let projectile_3: Sprite = null
+let Proyectiles_in_screen = 0
 let player_spell: Sprite = null
 let projectile_4: Sprite = null
 let prueba: Sprite = null
@@ -700,7 +683,7 @@ let _new: number[] = []
 let RoF = 0
 let Initial_artifact: number[] = []
 let Direction = 0
-let Proyectiles_in_screen = 0
+let Level = 0
 Direction = 1.62
 let Projectile_speed = 30
 Initial_artifact = [RoF, Projectile_speed]
@@ -1076,8 +1059,68 @@ forever(function () {
     Players_hitbox.setPosition(player_.x, player_.y)
     Level_HP = sprites.readDataNumber(Artifact_3, "HP") + (sprites.readDataNumber(Artifact_2, "HP") + sprites.readDataNumber(Artifact_1, "HP"))
     if (Level_HP < 1) {
-        game.gameOver(true)
-        game.setGameOverEffect(true, effects.confetti)
+        tiles.setCurrentTilemap(tilemap`level0`)
+    }
+    if (Players_hitbox.y <= 5) {
+        tiles.setCurrentTilemap(tilemap`level1`)
+        Level += 1
+        Define_Artifacts()
+        player_.setPosition(80, 165)
+        Players_hitbox.setPosition(80, 165)
+        Artifact_1 = sprites.create(img`
+            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+            . 2 2 2 2 2 2 2 2 2 2 2 2 . 
+            . 2 2 2 2 2 2 2 2 2 2 2 2 . 
+            . . 2 2 2 2 2 2 2 2 2 2 . . 
+            . . . 2 2 2 2 2 2 2 2 . . . 
+            `, SpriteKind.Enemy)
+        Artifact_1.setPosition(80, 13)
+        Artifact_2 = sprites.create(img`
+            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+            . 3 3 3 3 3 3 3 3 3 3 3 3 . 
+            . 3 3 3 3 3 3 3 3 3 3 3 3 . 
+            . . 3 3 3 3 3 3 3 3 3 3 . . 
+            . . . 3 3 3 3 3 3 3 3 . . . 
+            `, SpriteKind.Enemy)
+        Artifact_2.setPosition(25, 16)
+        Artifact_3 = sprites.create(img`
+            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+            . 7 7 7 7 7 7 7 7 7 7 7 7 . 
+            . 7 7 7 7 7 7 7 7 7 7 7 7 . 
+            . . 7 7 7 7 7 7 7 7 7 7 . . 
+            . . . 7 7 7 7 7 7 7 7 . . . 
+            `, SpriteKind.Enemy)
+        Artifact_3.setPosition(135, 16)
+        sprites.setDataNumber(Artifact_1, "HP", 50)
+        sprites.setDataNumber(Artifact_2, "HP", 50)
+        sprites.setDataNumber(Artifact_3, "HP", 50)
     }
 })
 forever(function () {

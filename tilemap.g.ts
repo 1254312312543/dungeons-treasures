@@ -28,6 +28,19 @@ namespace myTiles {
 2 2 2 . . . . 2 2 2 
 2 . . . . . . . . 2 
 `, [myTiles.transparency16,sprites.dungeon.purpleOuterNorth0,sprites.dungeon.purpleInnerSouthEast,sprites.dungeon.purpleInnerSouthWest,sprites.dungeon.purpleInnerNorthWest,sprites.dungeon.purpleInnerNorthEast,sprites.dungeon.purpleOuterWest0,sprites.dungeon.purpleOuterEast0,myTiles.tile2,myTiles.tile4,myTiles.tile3,myTiles.tile5], TileScale.Sixteen);
+            case "level0":
+            case "level2":return tiles.createTilemap(hex`0a000a000a010102080803010109060808080808080808070608080808080808080706080808080808080807060808080808080808070608080808080808080706080808080808080807060405080808080405070603020808080803020702080808080808080803`, img`
+2 2 2 2 . . 2 2 2 2 
+2 . . . . . . . . 2 
+2 . . . . . . . . 2 
+2 . . . . . . . . 2 
+2 . . . . . . . . 2 
+2 . . . . . . . . 2 
+2 . . . . . . . . 2 
+2 2 2 . . . . 2 2 2 
+2 2 2 . . . . 2 2 2 
+2 . . . . . . . . 2 
+`, [myTiles.transparency16,sprites.dungeon.purpleOuterNorth0,sprites.dungeon.purpleInnerSouthEast,sprites.dungeon.purpleInnerSouthWest,sprites.dungeon.purpleInnerNorthWest,sprites.dungeon.purpleInnerNorthEast,sprites.dungeon.purpleOuterWest0,sprites.dungeon.purpleOuterEast0,myTiles.tile2,myTiles.tile4,myTiles.tile3], TileScale.Sixteen);
         }
         return null;
     })

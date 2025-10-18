@@ -54,6 +54,25 @@
         ],
         "displayName": "level1"
     },
+    "level2": {
+        "id": "level2",
+        "mimeType": "application/mkcd-tilemap",
+        "data": "MTAwYTAwMGEwMDBhMDEwMTAyMDgwODAzMDEwMTA5MDYwODA4MDgwODA4MDgwODA4MDcwNjA4MDgwODA4MDgwODA4MDgwNzA2MDgwODA4MDgwODA4MDgwODA3MDYwODA4MDgwODA4MDgwODA4MDcwNjA4MDgwODA4MDgwODA4MDgwNzA2MDgwODA4MDgwODA4MDgwODA3MDYwNDA1MDgwODA4MDgwNDA1MDcwNjAzMDIwODA4MDgwODAzMDIwNzAyMDgwODA4MDgwODA4MDgwODAzMjIyMjAwMjIyMjAyMDAwMDAwMjAwMjAwMDAwMDIwMDIwMDAwMDAyMDAyMDAwMDAwMjAwMjAwMDAwMDIwMDIwMDAwMDAyMDIyMDIwMDIwMjIyMjAyMDAyMDIyMDIwMDAwMDAyMA==",
+        "tileset": [
+            "myTiles.transparency16",
+            "sprites.dungeon.purpleOuterNorth0",
+            "sprites.dungeon.purpleInnerSouthEast",
+            "sprites.dungeon.purpleInnerSouthWest",
+            "sprites.dungeon.purpleInnerNorthWest",
+            "sprites.dungeon.purpleInnerNorthEast",
+            "sprites.dungeon.purpleOuterWest0",
+            "sprites.dungeon.purpleOuterEast0",
+            "myTiles.tile2",
+            "myTiles.tile4",
+            "myTiles.tile3"
+        ],
+        "displayName": "level0"
+    },
     "*": {
         "mimeType": "image/x-mkcd-f4",
         "dataEncoding": "base64",
