@@ -78,20 +78,20 @@ function Define_Artifacts () {
 function ReDefine_Artifacts (Artifact_array: number[]) {
     if (Artifact_array[6] == 0) {
         Artifact_array[3] = 3000
-        Artifact_array[4] = 500
-        Artifact_array[5] = 6
+        Artifact_array[4] = randint(250, 500)
+        Artifact_array[5] = randint(4, 8)
     } else if (Artifact_array[6] == 1) {
-        Artifact_array[3] = 50000
-        Artifact_array[4] = 500
-        Artifact_array[5] = 5
+        Artifact_array[3] = 5000
+        Artifact_array[4] = randint(500, 1000)
+        Artifact_array[5] = randint(4, 5)
     } else if (Artifact_array[6] == 2) {
         Artifact_array[3] = 3000
-        Artifact_array[4] = 1000
-        Artifact_array[5] = 3
+        Artifact_array[4] = randint(500, 1000)
+        Artifact_array[5] = randint(3, 5)
     } else if (Artifact_array[6] == 3) {
         Artifact_array[3] = 3000
-        Artifact_array[4] = 500
-        Artifact_array[5] = 5
+        Artifact_array[4] = randint(250, 500)
+        Artifact_array[5] = randint(4, 6)
     }
 }
 function Big_Spell (Artifact: Sprite, Artifact_array: any[]) {
@@ -1041,7 +1041,7 @@ Artifact_1 = sprites.create(img`
     . . 2 2 2 2 2 2 2 2 2 2 . . 
     . . . 2 2 2 2 2 2 2 2 . . . 
     `, SpriteKind.Enemy)
-Artifact_1.setPosition(80, 15)
+Artifact_1.setPosition(80, 17)
 sprites.setDataNumber(Artifact_1, "HP", 50)
 Artifact_2 = sprites.create(img`
     3 3 3 3 3 3 3 3 3 3 3 3 3 3 
@@ -1170,56 +1170,113 @@ forever(function () {
         Define_Artifacts()
         player_.setPosition(80, 165)
         Players_hitbox.setPosition(80, 165)
-        Artifact_1 = sprites.create(img`
-            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-            2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-            . 2 2 2 2 2 2 2 2 2 2 2 2 . 
-            . 2 2 2 2 2 2 2 2 2 2 2 2 . 
-            . . 2 2 2 2 2 2 2 2 2 2 . . 
-            . . . 2 2 2 2 2 2 2 2 . . . 
-            `, SpriteKind.Enemy)
+        if (Math.percentChance(50)) {
+            Artifact_1 = sprites.create(img`
+                2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+                2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+                2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+                2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+                2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+                2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+                2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+                2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+                2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+                2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+                . 2 2 2 2 2 2 2 2 2 2 2 2 . 
+                . 2 2 2 2 2 2 2 2 2 2 2 2 . 
+                . . 2 2 2 2 2 2 2 2 2 2 . . 
+                . . . 2 2 2 2 2 2 2 2 . . . 
+                `, SpriteKind.Enemy)
+        } else {
+            Artifact_1 = sprites.create(img`
+                6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                6 6 6 6 6 6 6 6 6 6 6 6 6 6 
+                . 6 6 6 6 6 6 6 6 6 6 6 6 . 
+                . 6 6 6 6 6 6 6 6 6 6 6 6 . 
+                . . 6 6 6 6 6 6 6 6 6 6 . . 
+                . . . 6 6 6 6 6 6 6 6 . . . 
+                `, SpriteKind.Enemy)
+        }
+        if (Math.percentChance(50)) {
+            Artifact_3 = sprites.create(img`
+                7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+                7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+                7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+                7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+                7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+                7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+                7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+                7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+                7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+                7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+                . 7 7 7 7 7 7 7 7 7 7 7 7 . 
+                . 7 7 7 7 7 7 7 7 7 7 7 7 . 
+                . . 7 7 7 7 7 7 7 7 7 7 . . 
+                . . . 7 7 7 7 7 7 7 7 . . . 
+                `, SpriteKind.Enemy)
+        } else {
+            Artifact_3 = sprites.create(img`
+                4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+                4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+                4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+                4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+                4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+                4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+                4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+                4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+                4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+                4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+                . 4 4 4 4 4 4 4 4 4 4 4 4 . 
+                . 4 4 4 4 4 4 4 4 4 4 4 4 . 
+                . . 4 4 4 4 4 4 4 4 4 4 . . 
+                . . . 4 4 4 4 4 4 4 4 . . . 
+                `, SpriteKind.Enemy)
+        }
+        if (Math.percentChance(50)) {
+            Artifact_2 = sprites.create(img`
+                3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+                3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+                3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+                3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+                3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+                3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+                3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+                3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+                3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+                3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+                . 3 3 3 3 3 3 3 3 3 3 3 3 . 
+                . 3 3 3 3 3 3 3 3 3 3 3 3 . 
+                . . 3 3 3 3 3 3 3 3 3 3 . . 
+                . . . 3 3 3 3 3 3 3 3 . . . 
+                `, SpriteKind.Enemy)
+        } else {
+            Artifact_2 = sprites.create(img`
+                e e e e e e e e e e e e e e 
+                e e e e e e e e e e e e e e 
+                e e e e e e e e e e e e e e 
+                e e e e e e e e e e e e e e 
+                e e e e e e e e e e e e e e 
+                e e e e e e e e e e e e e e 
+                e e e e e e e e e e e e e e 
+                e e e e e e e e e e e e e e 
+                e e e e e e e e e e e e e e 
+                e e e e e e e e e e e e e e 
+                . e e e e e e e e e e e e . 
+                . e e e e e e e e e e e e . 
+                . . e e e e e e e e e e . . 
+                . . . e e e e e e e e . . . 
+                `, SpriteKind.Enemy)
+        }
         Artifact_1.setPosition(80, 13)
-        Artifact_2 = sprites.create(img`
-            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-            3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-            . 3 3 3 3 3 3 3 3 3 3 3 3 . 
-            . 3 3 3 3 3 3 3 3 3 3 3 3 . 
-            . . 3 3 3 3 3 3 3 3 3 3 . . 
-            . . . 3 3 3 3 3 3 3 3 . . . 
-            `, SpriteKind.Enemy)
         Artifact_2.setPosition(25, 16)
-        Artifact_3 = sprites.create(img`
-            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
-            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
-            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
-            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
-            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
-            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
-            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
-            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
-            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
-            7 7 7 7 7 7 7 7 7 7 7 7 7 7 
-            . 7 7 7 7 7 7 7 7 7 7 7 7 . 
-            . 7 7 7 7 7 7 7 7 7 7 7 7 . 
-            . . 7 7 7 7 7 7 7 7 7 7 . . 
-            . . . 7 7 7 7 7 7 7 7 . . . 
-            `, SpriteKind.Enemy)
         Artifact_3.setPosition(135, 16)
         sprites.setDataNumber(Artifact_1, "HP", 50)
         sprites.setDataNumber(Artifact_2, "HP", 50)
