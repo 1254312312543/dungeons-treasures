@@ -158,14 +158,17 @@ controller.player2.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pres
     Spell_casting()
 })
 function change_level () {
-    if (Level == 5) {
+    if (Level == 5 && World_level == 0) {
+        Crosshair.setFlag(SpriteFlag.Invisible, true)
         Level = -1
         World_level = 1
         tiles.setCurrentTilemap(tilemap`level4`)
-        tiles.placeOnTile(player_, tiles.getTileLocation(7, 15))
+        tiles.placeOnTile(player_, tiles.getTileLocation(7, 16))
         player_.x += 9
         player_.y += 13
     } else {
+        Crosshair.setFlag(SpriteFlag.Invisible, false)
+        World_level = 0
         music.play(music.melodyPlayable(music.magicWand), music.PlaybackMode.InBackground)
         tiles.setCurrentTilemap(tilemap`level1`)
         Level += 1
@@ -1002,6 +1005,7 @@ let Artifact_3: Sprite = null
 let Artifact_2: Sprite = null
 let Artifact_1: Sprite = null
 let Inventory_box: Sprite = null
+let Crosshair: Sprite = null
 let Inventory_HUD_visibility = 0
 let World_level = 0
 let HP = 0
@@ -1142,7 +1146,7 @@ scene.setBackgroundImage(img`
     cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
     cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
     `)
-let Crosshair = sprites.create(img`
+Crosshair = sprites.create(img`
     . . f . . 
     . . f . . 
     f f 2 f f 
@@ -1381,7 +1385,11 @@ forever(function () {
     HUD_Inventory()
     Players_hitbox.setPosition(player_.x, player_.y)
     if (World_level == 1) {
-        scene.cameraFollowSprite(player_)
+        if (player_.y < 76) {
+            scene.centerCameraAt(128, 76)
+        } else {
+            scene.cameraFollowSprite(player_)
+        }
     }
     if (World_level == 0) {
         Crosshair.setPosition(player_.x - Math.cos(Direction) * 10, player_.y - Math.sin(Direction) * 10)

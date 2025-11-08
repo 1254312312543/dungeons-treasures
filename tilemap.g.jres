@@ -95,32 +95,6 @@
         ],
         "displayName": "level3"
     },
-    "level4": {
-        "id": "level4",
-        "mimeType": "application/mkcd-tilemap",
-        "data": "MTAxMDAwMTAwMDBkMGQwMjA2MDYwNjA1MDMwMzA4MDYwNjA2MDEwZDBkMGQwZDA0MDMwMzAzMDMwMzAzMDMwMzAzMDMwYzBkMGQwZDBkMDQwMzAzMDMwMzAzMDMwMzAzMDMwMzBjMGQwZDBkMGQwNDAzMDMwMzAzMDMwMzAzMDMwMzAzMGMwZDBkMGQwZDA0MDMwMzAzMDMwMzAzMDMwMzAzMDMwYzBkMGQwZDBkMTEwYjBiMGIwOTAzMDMwNzBiMGIwYjEwMGQwZDBkMGQwZDAyMDYwNjA1MDMwMzA4MDYwNjAxMGQwZDBkMGQwZDBkMDQwMzAzMDMwMzAzMDMwMzAzMGEwZDBkMGQwMjA2MDYwNTAzMDMwMzAzMDMwMzAzMDMwODA2MDYwMTA0MDMwZTAzMDMwMzAzMDMwMzAzMDMwMzAzMGYwMzBjMDQwMzBlMDMwMzAzMDMwMzAzMDMwMzAzMDMwZjAzMGMwNDAzMGUwMzAzMDMwMzAzMDMwMzAzMDMwMzBmMDMwYzExMGIwYjA5MDMwMzAzMDMwMzAzMDMwMzA3MGIwYjEwMGQwZDBkMDQwMzAzMDMwMzAzMDMwMzAzMGEwZDBkMGQwZDBkMGQwNDAzMDMwMzAzMDMwMzAzMDMwYTBkMGQwZDBkMGQwZDA1MDMwMzAzMDMwMzAzMDMwMzA4MGQwZDBkMDAyMjIyMDIyMDIyMjIwMDAwMDIwMDAwMDAwMDIwMDAwMDAyMDAwMDAwMDAyMDAwMDAwMjAwMDAwMDAwMjAwMDAwMDIwMDAwMDAwMDIwMDAwMDIyMjIwMjIwMjIyMjAwMDAyMDIyMDIyMDIyMDIwMDAwMjAwMDAwMDAwMDAyMDAyMjIyMDAwMDAwMDAyMjIyMDIwMjAwMDAwMDAwMjAyMDAyMDIwMDAwMDAwMDIwMjAwMjAyMDAwMDAwMDAyMDIwMjIyMjAwMDAwMDAwMjIyMjAwMjAwMDAwMDAwMDAyMDAwMDIwMDAwMDAwMDAwMjAwMDAyMDAwMDAwMDAwMDIwMA==",
-        "tileset": [
-            "myTiles.transparency16",
-            "myTiles.tile4",
-            "myTiles.tile8",
-            "myTiles.tile1",
-            "sprites.dungeon.purpleOuterWest0",
-            "sprites.dungeon.purpleInnerSouthEast",
-            "sprites.dungeon.purpleOuterNorth0",
-            "sprites.dungeon.purpleInnerNorthWest",
-            "sprites.dungeon.purpleInnerSouthWest",
-            "sprites.dungeon.purpleInnerNorthEast",
-            "sprites.dungeon.purpleOuterEast0",
-            "sprites.dungeon.purpleOuterSouth1",
-            "sprites.dungeon.purpleOuterEast1",
-            "myTiles.tile7",
-            "myTiles.tile9",
-            "myTiles.tile10",
-            "myTiles.tile11",
-            "myTiles.tile12"
-        ],
-        "displayName": "level4"
-    },
     "level1": {
         "id": "level1",
         "mimeType": "application/mkcd-tilemap",
@@ -159,6 +133,32 @@
             "myTiles.tile7"
         ],
         "displayName": "level0"
+    },
+    "level4": {
+        "id": "level4",
+        "mimeType": "application/mkcd-tilemap",
+        "data": "MTAxMDAwMTEwMDAwMDAwMDAwMDAwMDBkMGQwZDBkMDAwMDAwMDAwMDAwMGQwZDAyMDYwNjA2MDUwMzAzMDgwNjA2MDYwMTBkMGQwZDBkMDQwMzAzMDMwMzAzMDMwMzAzMDMwMzBjMGQwZDBkMGQwNDAzMDMwMzAzMDMwMzAzMDMwMzAzMGMwZDBkMGQwZDA0MDMwMzAzMDMwMzAzMDMwMzAzMDMwYzBkMGQwZDBkMDQwMzAzMDMwMzAzMDMwMzAzMDMwMzBjMGQwZDBkMGQxMTBiMGIwYjA5MDMwMzA3MGIwYjBiMTAwZDBkMGQwZDBkMDIwNjA2MDUwMzAzMDgwNjA2MDEwZDBkMGQwZDBkMGQwNDAzMDMwMzAzMDMwMzAzMDMwYTBkMGQwZDAyMDYwNjA1MDMwMzAzMDMwMzAzMDMwMzA4MDYwNjAxMDQwMzBlMDMwMzAzMDMwMzAzMDMwMzAzMDMwZjAzMGMwNDAzMGUwMzAzMDMwMzAzMDMwMzAzMDMwMzBmMDMwYzA0MDMwZTAzMDMwMzAzMDMwMzAzMDMwMzAzMGYwMzBjMTEwYjBiMDkwMzAzMDMwMzAzMDMwMzAzMDcwYjBiMTAwZDBkMGQwNDAzMDMwMzAzMDMwMzAzMDMwYTBkMGQwZDBkMGQwZDA0MDMwMzAzMDMwMzAzMDMwMzBhMGQwZDBkMGQwZDBkMDUwMzAzMDMwMzAzMDMwMzAzMDgwZDBkMGQwMDAwMDAwMjIwMDAwMDAwMDAyMjIyMDIyMDIyMjIwMDAwMDIwMDAwMDAwMDIwMDAwMDAyMDAwMDAwMDAyMDAwMDAwMjAwMDAwMDAwMjAwMDAwMDIwMDAwMDAwMDIwMDAwMDIyMjIwMjIwMjIyMjAwMDAyMDIyMDIyMDIyMDIwMDAwMjAwMDAwMDAwMDAyMDAyMjIyMDAwMDAwMDAyMjIyMDIwMjAwMDAwMDAwMjAyMDAyMDIwMDAwMDAwMDIwMjAwMjAyMDAwMDAwMDAyMDIwMjIyMjAwMDAwMDAwMjIyMjAwMjAwMDAwMDAwMDAyMDAwMDIwMDAwMDAwMDAwMjAwMDAyMDAwMDAwMDAwMDIwMA==",
+        "tileset": [
+            "myTiles.transparency16",
+            "myTiles.tile4",
+            "myTiles.tile8",
+            "myTiles.tile1",
+            "sprites.dungeon.purpleOuterWest0",
+            "sprites.dungeon.purpleInnerSouthEast",
+            "sprites.dungeon.purpleOuterNorth0",
+            "sprites.dungeon.purpleInnerNorthWest",
+            "sprites.dungeon.purpleInnerSouthWest",
+            "sprites.dungeon.purpleInnerNorthEast",
+            "sprites.dungeon.purpleOuterEast0",
+            "sprites.dungeon.purpleOuterSouth1",
+            "sprites.dungeon.purpleOuterEast1",
+            "myTiles.tile7",
+            "myTiles.tile9",
+            "myTiles.tile10",
+            "myTiles.tile11",
+            "myTiles.tile12"
+        ],
+        "displayName": "level4"
     },
     "*": {
         "mimeType": "image/x-mkcd-f4",
